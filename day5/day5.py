@@ -1,5 +1,6 @@
-import re
-import numpy as np
+import time
+
+start = time.process_time()
 
 gpolymer = open('input.txt', 'r').readline()
 gpolymer = gpolymer[:-1] #get rid of '\n'
@@ -30,5 +31,4 @@ for i in range(0, 25):
 	min_polymer = current if current < min_polymer else min_polymer
 	
 print(min_polymer)
-
-
+print(time.process_time() - start)
