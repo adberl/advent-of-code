@@ -21,7 +21,7 @@ while(True):
 	
 	if(opcode == '99'):
 		break
-	elif(opcode == '08'): #less-than
+	elif(opcode == '08'): #equal
 		a = mint(mem[addr+1]) if modes[2] == 1 else mint(mem[mint(mem[addr+1])])
 		b = mint(mem[addr+2]) if modes[1] == 1 else mint(mem[mint(mem[addr+2])])
 		put = 0
