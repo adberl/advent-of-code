@@ -10,34 +10,41 @@ for orbit in orbits:
 # key = object that is orbiting
 # value = what is being orbited	
 	
-for obj, around in orb_data.items():
-	if(not obj in orb_data):
-		last_planets.append(obj)
+for in_orbit, around in orb_data.items():
+	if(not in_orbit in orb_data.values()):
+		last_planets.append(in_orbit)
 
-print(last_planets)
+last_planets.remove('SAN')
+last_planets.remove('YOU')
+last_planets.append('COM')
 
 def get_orbited(item):
 	orbited = []
-	for obj, around in orb_data.items():
-		if(obj == item):
-			orbited.append(around)
-	print(item, orbited)
+	for in_orbit, around in orb_data.items():
+		if(around == item):
+			orbited.append(in_orbit)
 	return orbited
 
 jumps = []
-def mintrans(item, depth):
+def mintrans(previous, item, depth):
+#	print(previous, item, depth)
 	if(not (item in orb_data) or item in last_planets):
-		return
+		return -1
+	if(item == 'COM'):
+		return -1
 	if(item == 'SAN'):
 		jumps.append(depth)
 	else:
-		mintrans(orb_data[item], depth+1)
+		if(not orb_data[item] == previous):
+			mintrans(item, orb_data[item], depth+1)
 		for a in get_orbited(item):
-			mintrans(orb_data[a], depth+1)
+			if(previous == a):
+				continue
+			mintrans(item, a, depth+1)
 
-mintrans('YOU', 0)
+mintrans('1', 'YOU', 0)
 
-print(jumps)
+print(jumps[0] - 2)
 
 
 #for obj, around in orb_data.items():
