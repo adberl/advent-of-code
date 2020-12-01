@@ -4,4 +4,4 @@ Another year, another try.
 
 # Days
 
-[Puzzle](https://adventofcode.com/2020/day/1) | [Solved](day1/day1.py)\
+[Puzzle](https://adventofcode.com/2020/day/1) | [Solved](day1/puzzle.py)\
