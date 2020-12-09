@@ -21,20 +21,18 @@ def partone():
 def parttwo():
 	weak_number = 3199139634
 	startid = 0
-	currentid = 0	
-	the_set = []
+	currentid = 1	
+	thesum = lines[startid]
 	while True:
-		the_set.append(currentid)
-		if(sum(the_set) == weak_number and len(the_set) >= 2):
-			print(f'Final answer: {the_set[0] + the_set[-1]}')
+		if(thesum == weak_number and currentid - startid >= 1):
+			print(f'Final answer: {min(lines[startid:currentid]) + max(lines[startid:currentid])}')
 			break
-		elif(sum(the_set) > weak_number):
-#			print(f'Too big {the_set}')
+		elif(thesum > weak_number):
 			startid += 1
-			currentid = startid
-			the_set.clear()
+			currentid = startid + 1
+			thesum = lines[startid]
 		else:
-#			print(f'Too small {the_set}')
+			thesum += lines[currentid]
 			currentid += 1
 			
 parttwo()
