@@ -4,13 +4,13 @@ Another year, another try.
 
 # Days
 
-[Day 01 Puzzle](https://adventofcode.com/2020/day/1) | [Solved](day1/puzzle.py)\
-[Day 02 Puzzle](https://adventofcode.com/2020/day/2) | [Solved](day2/puzzle.py)\
-[Day 03 Puzzle](https://adventofcode.com/2020/day/3) | [Solved](day3/puzzle.py)\
-[Day 04 Puzzle](https://adventofcode.com/2020/day/4) | [Solved](day4/puzzle.py)\
-[Day 05 Puzzle](https://adventofcode.com/2020/day/5) | [Solved](day5/puzzle.py)\
-[Day 06 Puzzle](https://adventofcode.com/2020/day/6) | [Solved](day6/puzzle.py)\
-[Day 07 Puzzle](https://adventofcode.com/2020/day/7) | [Solved](day7/puzzle.py)\
-[Day 08 Puzzle](https://adventofcode.com/2020/day/8) | [Solved](day8/puzzle.py)\
-[Day 09 Puzzle](https://adventofcode.com/2020/day/9) | [Solved](day9/puzzle.py)\
+[Day 01 Puzzle](https://adventofcode.com/2020/day/01) | [Solved](day01/puzzle.py)\
+[Day 02 Puzzle](https://adventofcode.com/2020/day/02) | [Solved](day02/puzzle.py)\
+[Day 03 Puzzle](https://adventofcode.com/2020/day/03) | [Solved](day03/puzzle.py)\
+[Day 04 Puzzle](https://adventofcode.com/2020/day/04) | [Solved](day04/puzzle.py)\
+[Day 05 Puzzle](https://adventofcode.com/2020/day/05) | [Solved](day05/puzzle.py)\
+[Day 06 Puzzle](https://adventofcode.com/2020/day/06) | [Solved](day06/puzzle.py)\
+[Day 07 Puzzle](https://adventofcode.com/2020/day/07) | [Solved](day07/puzzle.py)\
+[Day 08 Puzzle](https://adventofcode.com/2020/day/08) | [Solved](day08/puzzle.py)\
+[Day 09 Puzzle](https://adventofcode.com/2020/day/09) | [Solved](day09/puzzle.py)\
 [Day 10 Puzzle](https://adventofcode.com/2020/day/10) | [Solved](day10/puzzle.py)
