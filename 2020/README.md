@@ -13,4 +13,5 @@ Another year, another try.
 [Day 07 Puzzle](https://adventofcode.com/2020/day/07) | [Solved](day07/puzzle.py)\
 [Day 08 Puzzle](https://adventofcode.com/2020/day/08) | [Solved](day08/puzzle.py)\
 [Day 09 Puzzle](https://adventofcode.com/2020/day/09) | [Solved](day09/puzzle.py)\
-[Day 10 Puzzle](https://adventofcode.com/2020/day/10) | [Solved](day10/puzzle.py)
+[Day 10 Puzzle](https://adventofcode.com/2020/day/10) | [Solved](day10/puzzle.py)\
+[Day 11 Puzzle](https://adventofcode.com/2020/day/11) | [Solved](day11/puzzle.py)
