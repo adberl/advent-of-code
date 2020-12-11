@@ -14,8 +14,20 @@ while True:
 			noccupied = 0
 #			print(f'Neighbours for {room[i][j]}[{i},{j}]:')
 			for m in range(len(mx)):
-				posx = j + mx[m]
-				posy = i + my[m]
+				nothit = True
+				posx = j
+				posy = i
+				while nothit:
+					posx = posx + mx[m]
+					posy = posy + my[m]
+#					print(posx, posy)
+					if(0 <= posx < len(room[0]) and 0 <= posy < len(room)):
+						if(room[posy][posx] == '.'):
+							continue
+						else:
+							nothit = False
+					else:
+						nothit = False
 				if(0 <= posx < len(room[0]) and 0 <= posy < len(room)): #position is valid
 					if(room[posy][posx] == '#'):
 						noccupied += 1
@@ -26,7 +38,7 @@ while True:
 				l = list(newroom[i])
 				l[j] = '#'
 				newroom[i] = ''.join(l)
-			elif(room[i][j] == '#' and noccupied >= 4):
+			elif(room[i][j] == '#' and noccupied >= 5):
 				l = list(newroom[i])
 				l[j] = 'L'
 				newroom[i] = ''.join(l)
