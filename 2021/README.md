@@ -6,7 +6,7 @@ Can you believe it's already that time of the year?
 
 [Day 01 Puzzle](https://adventofcode.com/2021/day/1) | [Solved](day1/puzzle.py)\
 [Day 02 Puzzle](https://adventofcode.com/2021/day/2) | [Solved](day2/puzzle.py)\
-<!-- [Day 03 Puzzle](https://adventofcode.com/2021/day/3) | [Solved](day3/puzzle.py)\ -->
+[Day 03 Puzzle](https://adventofcode.com/2021/day/3) | [Solved](day3/puzzle.py)\
 <!-- [Day 04 Puzzle](https://adventofcode.com/2021/day/4) | [Solved](day4/puzzle.py)\ -->
 <!-- [Day 05 Puzzle](https://adventofcode.com/2021/day/5) | [Solved](day5/puzzle.py)\ -->
 <!-- [Day 06 Puzzle](https://adventofcode.com/2021/day/6) | [Solved](day6/puzzle.py)\ -->
