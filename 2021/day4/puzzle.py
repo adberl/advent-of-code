@@ -22,7 +22,7 @@ class Board:
 				if row[i][0] == draw_num:
 					row[i] = (row[i][0], 1)
 					return self.test_win()
-
+		return 0
 	def test_win(self):
 		return self.test_rows() + self.test_colums()
 
@@ -58,12 +58,19 @@ def init_boards():
 		else:
 			temp_board.append(line)
 
+all_winning_boards = []
+
 def start_draw_numbers():
 	# when drawing number, test it against all 
 	for i in draw_numbers:
+		winning_boards = []
 		for board in boards:
-			if(board.draw_number(i) == 1):
-				return board.sum_unmarked() * i
+			if(board.draw_number(i) >= 1): # board is winning one
+				# equal or larger than one bcs a number can simoultaneousy complete a row and a column
+				all_winning_boards.append([board, board.sum_unmarked() * i, i])
+				winning_boards.append(board)
+		for b in winning_boards:
+			boards.remove(b)
 
 def print_boards():
 	for board in boards:
@@ -73,5 +80,5 @@ f.pop(0)
 f.pop(0)
 
 init_boards()
-print(start_draw_numbers())
-#print_boards()
+start_draw_numbers()
+print(all_winning_boards)
