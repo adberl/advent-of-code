@@ -63,5 +63,6 @@ def co2_criteria(start_array):
 
 def part2():
 	return oxygen_criteria(diagnostic_report) * co2_criteria(diagnostic_report)
+
 print(part2())
 #print(part1())

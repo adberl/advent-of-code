@@ -8,7 +8,7 @@ Can you believe it's already that time of the year?
 [Day 02 Puzzle](https://adventofcode.com/2021/day/2) | [Solved](day2/puzzle.py)\
 [Day 03 Puzzle](https://adventofcode.com/2021/day/3) | [Solved](day3/puzzle.py)\
 [Day 04 Puzzle](https://adventofcode.com/2021/day/4) | [Solved](day4/puzzle.py)\
-<!-- [Day 05 Puzzle](https://adventofcode.com/2021/day/5) | [Solved](day5/puzzle.py)\ -->
+[Day 05 Puzzle](https://adventofcode.com/2021/day/5) | [Solved](day5/puzzle.py)\
 <!-- [Day 06 Puzzle](https://adventofcode.com/2021/day/6) | [Solved](day6/puzzle.py)\ -->
 <!-- [Day 07 Puzzle](https://adventofcode.com/2021/day/7) | [Solved](day7/puzzle.py)\ -->
 <!-- [Day 08 Puzzle](https://adventofcode.com/2021/day/8) | [Solved](day8/puzzle.py)\ -->
