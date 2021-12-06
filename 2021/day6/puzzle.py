@@ -34,8 +34,7 @@ for lf in f:
 	lanternfish[current] += 1
 	
 def tick():
-	new_spawns = lanternfish[0]
-	lanternfish.pop(0)
+	new_spawns = lanternfish.pop(0)
 	lanternfish[6] += new_spawns
 	lanternfish.append(new_spawns)
 	
