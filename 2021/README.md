@@ -18,7 +18,7 @@ Can you believe it's already that time of the year?
 [Day 12 Puzzle](https://adventofcode.com/2021/day/12) | [Solved](day12/puzzle.py)\
 [Day 13 Puzzle](https://adventofcode.com/2021/day/13) | [Solved](day13/puzzle.py)\
 [Day 14 Puzzle](https://adventofcode.com/2021/day/14) | [Solved](day14/puzzle.py)\
-<!-- [Day 15 Puzzle](https://adventofcode.com/2021/day/15) | [Solved](day15/puzzle.py)\ -->
+[Day 15 Puzzle](https://adventofcode.com/2021/day/15) | [Solved](day15/puzzle.py)\
 <!-- [Day 16 Puzzle](https://adventofcode.com/2021/day/16) | [Solved](day16/puzzle.py)\ -->
 <!-- [Day 17 Puzzle](https://adventofcode.com/2021/day/16) | [Solved](day17/puzzle.py)\ -->
 <!-- [Day 18 Puzzle](https://adventofcode.com/2021/day/16) | [Solved](day18/puzzle.py)\ -->
