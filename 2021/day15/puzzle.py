@@ -1,57 +1,85 @@
+import heapq as hq
+
 lines = [i.rstrip() for i in open('input', 'r').readlines()]
 
 maxx = len(lines[0])
 maxy = len(lines)
 
-movex = [-1, 0, 1, 0]
-movey = [0, -1, 0, 1]
 
-current_node = (0, 0)
 visited = []
-distances = {current_node: 0}
-end_node = (maxx-1, maxy-1)
-to_test = []
+queue = [(0, (0, 0))]
 
-def add_neighbours(whose, where):
-	for m in range(len(movex)):
-		newx = whose[0] + movex[m]
-		newy = whose[1] + movey[m]
+def fill_distances(maxonx, maxony):
+	distances = {}
+	for i in range(maxonx):
+		for j in range(maxony):
+			distances[(i, j)] = 10000000000000
+	distances[(0,0)] = 0
+	return distances
+
+def make_bigger():
+	risks = [[0 for i in range(maxx*5)] for j in range(maxy*5)]
+
+	for i in range(maxx):
+		for j in range(maxy):
+			for biggerx in range(5):
+				new_risk = (int(lines[j][i]) + biggerx)
+				risks[j][i+maxx*biggerx] = new_risk
+	for i in range(len(risks[0])):
+		for j in range(maxy):
+			for biggery in range(5):
+				new_risk = (int(risks[j][i]) + biggery) 
+				risks[j+maxy*biggery][i] = new_risk
+
+	for i in range(len(risks[0])):
+		for j in range(len(risks)): # cba to fix :(
+			if risks[j][i] > 9: 
+				risks[j][i] -= 9	
+
+	return risks
 		
-		if newx < 0 or newx >= maxx or newy < 0 or newy >= maxy:
+def add_neighbours(whose, where, amaxx, amaxy):
+	movement = [(-1, 0), (0, -1), (1, 0), (0, 1)]
+	for movex, movey in movement:
+		newx = whose[0] + movex
+		newy = whose[1] + movey
+		
+		if newx < 0 or newx >= amaxx or newy < 0 or newy >= amaxy:
 			continue
-		new_node = (newx, newy) # thanks python
+		new_node = (newx, newy) 
 		if not new_node in visited:
 			where.append(new_node)
 
-def ret_smallest():
-	smallest_dist = 1000000000
-	node = None
-	for i in distances:
-		if (not (i in visited)) and (distances[i] < smallest_dist):
-			smallest_dist = distances[i]
-			node = i
-	return node
+def dijkstra():
+	lines = make_bigger()
+	newmax = len(lines)
+	distances = fill_distances(newmax, newmax)
+	end_node = (newmax-1, newmax-1)
 
-working = True
+	while queue:
+		dist, current_node = hq.heappop(queue)
+		neighbours = []
+		add_neighbours(current_node, neighbours, newmax, newmax)
+		for n in neighbours:
+			new_dist = dist + int(lines[n[1]][n[0]])
+			if new_dist < distances[n]:
+				distances[n] = new_dist
+				hq.heappush(queue, (new_dist, n))
+		visited.append(current_node)
 
-while working:
-	neighbours = []
-	add_neighbours(current_node, neighbours)
-	for n in neighbours:
-		new_dist = distances[current_node] + int(lines[n[1]][n[0]])
-		if not n in distances:
-			distances[n] = new_dist
-		if new_dist < distances[n]:
-			distances[n] = new_dist
-	visited.append(current_node)
-	current_node = ret_smallest()
-#	print(current_node)
-	if current_node == None or current_node == end_node:
-		break
-#	break
+#		if current_node == None or current_node == end_node:
+#			return distances[end_node]
+	print(f'Distance from topleft to bottomright is {distances[end_node]}')
 
-#for a in distances:
-#	print(a, distances[a])
-print(distances[end_node])
-#	new_node = current_node + (newx, newy)
-#	print(new_node)
+dijkstra()
+
+"""
+time python3 puzzle.py
+Distance from topleft to bottomright is 2831 
+
+real	204m14.091s
+user	202m30.792s
+sys	0m1.779s
+
+it might take a while but it works :)
+"""
