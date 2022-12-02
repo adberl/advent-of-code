@@ -5,7 +5,7 @@ This is the year I get to 25 days :)
 # Days
 
 [Day 01 Puzzle](https://adventofcode.com/2022/day/1) | [Solved](day01/puzzle.py)\
-<!-- [Day 02 Puzzle](https://adventofcode.com/2022/day/2) | [Solved](day2/puzzle.py)\ -->
+[Day 02 Puzzle](https://adventofcode.com/2022/day/2) | [Solved](day2/puzzle.py)\
 <!-- [Day 03 Puzzle](https://adventofcode.com/2022/day/3) | [Solved](day3/puzzle.py)\ -->
 <!-- [Day 04 Puzzle](https://adventofcode.com/2022/day/4) | [Solved](day4/puzzle.py)\ -->
 <!-- [Day 05 Puzzle](https://adventofcode.com/2022/day/5) | [Solved](day5/puzzle.py)\ -->
