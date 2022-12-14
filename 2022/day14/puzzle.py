@@ -7,6 +7,8 @@ MINY = 1000
 
 my_map = [['.' for _ in range(300)] for _ in range(1200)]
 
+# set this to 0 for part 1
+# or a reasonable number (like 300) for part 2
 XSHIFT = 0#300 # part2
 
 sand_start = (500+XSHIFT, 0)
