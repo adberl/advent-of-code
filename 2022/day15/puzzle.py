@@ -42,7 +42,7 @@ def part1():
 				break
 	print(res)
 
-def part2_bruteforce():
+def part2_bruteforce(): # this takes 11 years, dont do this 
 	for i in range(4000000):
 		for j in range(4000000):
 			potential_distress_beacon = (i, j)
@@ -62,30 +62,46 @@ def part2_bruteforce():
 		print(f'{i}/4000000')
 		break
 
-MAX_COORD = 20#4000000
-def part2():
+def get_skip(x, y): 
+	for sensor, s_range in sensor_ranges.items():
+		if get_distance((x,y), sensor) > s_range:
+			continue
+
+		#print(f'Distance to sensor{sensor} is {get_distance((x,y), sensor)} and its reach is: {s_range}')
+
+		y_dist = abs(sensor[1]-y)
+		points_covered = (s_range - y_dist) #* 2 + 1
+
+		# new pos we should check on the first is (14, 0)
+		x_dist = abs(sensor[0]-x)
+		if x <= sensor[0]: # we are on the left side
+			#print(f'We are on the left side! of sensor {sensor}')
+			skip_ahead = x_dist + points_covered + 1 + (0 if y_dist else 1) # if we are in the same row as the sensor, we skip the sensor aswell
+			#print(skip_ahead)
+		else: # we are on the right side
+			#print(f'We are on the right side! of sensor {sensor}')
+			skip_ahead = points_covered - (x_dist-2)
+			#print(skip_ahead, points_covered, x_dist)
+		
+		#print(f'my new pos: {(x+skip_ahead, y)}')
+		return skip_ahead
+
+MAX_COORD = 4000000
+def part2(): # this takes about a minute and a bit more
 	for y in range(MAX_COORD):
 		x = 0
-		for _ in range(3):#while True: # loop through X and check columns
-
-			for sensor, s_range in sensor_ranges.items():
-				if get_distance((x,y), sensor) > s_range:
-					continue
-				y_dist = abs(sensor[1]-y)
-				points_covered = (s_range - y_dist) #* 2 + 1
-				x_dist = sensor[0]-x
-				skip_ahead = points_covered - y_dist
-				print(f'skipped ahead by {skip_ahead} from {(x,y)} due to {sensor} with range {s_range} {points_covered}')
-				x+=skip_ahead
-			
-			if x > MAX_COORD:
-				break			
-			else:				
+		found = False
+		while x < MAX_COORD: # loop through X and check columns
+			skip = get_skip(x, y)
+			if skip == None:
 				print(f'We found him at {x, y}!')
 				print(f'Tuning frequency: {x*4000000+y}')
-
-	
-		print(f'{y+1}/{MAX_COORD}')
+				found = True
+				break
+			x += skip
+		#print(f'{y+1}/{MAX_COORD}')
+		if found:
+			break
 
 
 # (8,7): range:9:
@@ -93,9 +109,8 @@ def part2():
 # on line 1: 5->11
 # on line 2: 4->12
 # formula: RANGE-OURY (distance on Y axis basically) * 2 + 1
-#
-
-#	print(sensor_ranges)
 
 #part1()
 part2()
+# even with trying my best to brute-force this solution, part2 ended in ~1 minute
+# if you're brave enough to see how this works, uncomment some of the prints
