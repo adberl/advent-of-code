@@ -20,7 +20,7 @@ This is the year I get to 25 days :)
 [Day 14 Puzzle](https://adventofcode.com/2022/day/14) | [Solved](day14/puzzle.py)\
 [Day 15 Puzzle](https://adventofcode.com/2022/day/15) | [Solved](day15/puzzle.py)\
 [Day 16 Puzzle](https://adventofcode.com/2022/day/16) | [Solved](day16/puzzle.py)\
-<!-- [Day 17 Puzzle](https://adventofcode.com/2022/day/17) | [Solved](day17/puzzle.py)\ -->
+[Day 17 Puzzle](https://adventofcode.com/2022/day/17) | [Solved](day17/puzzle.py)\
 <!-- [Day 18 Puzzle](https://adventofcode.com/2022/day/18) | [Solved](day18/puzzle.py)\ -->
 <!-- [Day 19 Puzzle](https://adventofcode.com/2022/day/19) | [Solved](day19/puzzle.py)\ -->
 <!-- [Day 20 Puzzle](https://adventofcode.com/2022/day/20) | [Solved](day20/puzzle.py)\ -->
