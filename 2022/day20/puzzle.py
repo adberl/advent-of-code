@@ -22,11 +22,10 @@ for _ in range(mixings):
         for cid, number in enumerate(numbers):
             if iid == number.iid:
                 if number.val == 0:
-                    break
-                my_number = new_numbers.pop(cid)
                     # 0 doesn't move
-    
-                moving_forward = my_number.val > 0
+                    break
+
+                my_number = new_numbers.pop(cid)    
                 movement = cid + my_number.val
 
                 newid = movement % (max_id-1)
