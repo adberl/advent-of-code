@@ -38,7 +38,7 @@ def max_resources_needed(blueprint):
 
     return resources
 
-def get_turns(robot_cost, robots):
+def time_to_build(robot_cost, robots):
 #    print(f'Testing {robot_cost}, {robots}')
     max_turns = 0
     for res, val in robot_cost.items():
@@ -54,6 +54,7 @@ blueprints_max = [0 for _ in range(len(blueprints))]
 max_potentials = [0 for _ in range(len(blueprints))]
 max_time = 24
 visited_nodes = 0
+caching = {}
 def traverse(bid, blueprint, robots, resources, time):
     #print(f'Currently on turn {time}/{max_time}')
     global visited_nodes
@@ -62,7 +63,15 @@ def traverse(bid, blueprint, robots, resources, time):
         #print(bid, resources, robots)
         blueprints_max[bid] = max(blueprints_max[bid], resources['geode'])
         #print(f'We managed to get {resources["geode"]} geodes.')    
+        #print(f'Using these robots: {robots}')
         return
+
+    # if we already somehow saw this robot combination before but at an earlier time (somehow)
+    # then no point pursuing this
+    robots_tuple = tuple(list(robots.values())) #[:-1]) # :-1 is too aggressive 
+    if robots_tuple in caching and caching[robots_tuple] < time:
+            return
+    caching[robots_tuple] = time
 
     # remove a robot blueprint if we have no need for it anymore
     new_blueprint = blueprint.copy()
@@ -81,20 +90,18 @@ def traverse(bid, blueprint, robots, resources, time):
     max_geodes_potential = max_geodes_with_current_robots + remaining_time * (remaining_time-1)//2
 
     if max_geodes_potential < max_potentials[bid]:
-        # we cant ever get more than what we got already
+        # we have a max potential somewhere else, should likely try that branch
         return
     max_potentials[bid] = max_geodes_with_current_robots
     # skip from current turn to when we can build that robot
-    for robot_name, robot_cost in blueprint.items():
+    blueprint_reversed = dict(reversed(list(blueprint.items())))
+    for robot_name, robot_cost in blueprint_reversed.items():
         # figure out how many turns we gotta wait to build it
-        duration_to_build = get_turns(robot_cost, robots)
-        if duration_to_build == -1:
+        duration_to_build = time_to_build(robot_cost, robots)
+        if duration_to_build == -1 or duration_to_build + time > max_time:
             # cant build it with the current resource extraction we have
             continue
         
-
-
-
         # can build the robot, let's build it!
         #print(f'Building a {robot_name} which will take {duration_to_build}')
         new_resources = {}
@@ -128,7 +135,6 @@ for bid, blueprint in enumerate(blueprints):
 
     #can_afford_robot(blueprint['ore'], resources)
 
-print(max_resources_needed(blueprints[0]))
 print(blueprints_max)
 print(visited_nodes)
 #print(max_resources_needed(blueprints[0]))
