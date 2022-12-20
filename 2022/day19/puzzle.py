@@ -1,4 +1,4 @@
-import re
+import re, math
 blueprints_input = [l.rstrip() for l in open("input").readlines()]
 
 blueprints = []
@@ -38,53 +38,83 @@ def max_resources_needed(blueprint):
 
     return resources
 
+def get_turns(robot_cost, robots):
+#    print(f'Testing {robot_cost}, {robots}')
+    max_turns = 0
+    for res, val in robot_cost.items():
+        if res not in robots:
+            # cannot build this robot ever
+            return -1
+        
+        max_turns = max(max_turns, math.floor(val/robots[res]))
+    #print(max_turns)
+    return max_turns
+
 blueprints_max = [0 for _ in range(len(blueprints))]
+max_potentials = [0 for _ in range(len(blueprints))]
 max_time = 24
+visited_nodes = 0
 def traverse(bid, blueprint, robots, resources, time):
     #print(f'Currently on turn {time}/{max_time}')
+    global visited_nodes
+    visited_nodes += 1
     if time >= max_time:
         #print(bid, resources, robots)
         blueprints_max[bid] = max(blueprints_max[bid], resources['geode'])
         #print(f'We managed to get {resources["geode"]} geodes.')    
         return
 
+    # remove a robot blueprint if we have no need for it anymore
     new_blueprint = blueprint.copy()
     max_resources = max_resources_needed(blueprint)
     for robot_name, amount in robots.items():
         if robot_name in max_resources and robot_name in blueprint:
             if amount >= max_resources[robot_name]:
                 new_blueprint.pop(robot_name)
+    blueprint = new_blueprint
 
-    # it is not optimal to skip a turn if we built a robot
-    reversed_blueprint = dict(reversed(list(blueprint.items())))
-    for robot_name, robot_cost in reversed_blueprint.items():
-        if can_afford_robot(robot_cost, resources):
-            
-            # we branch off and create the robot here
-            # meaning we substract robot cost, mine new resources and start a new turn
+    remaining_time = max_time - time
+
+    max_geodes_with_current_robots = 0
+    if 'geode' in robots:
+        max_geodes_with_current_robots = robots['geode'] + remaining_time * robots['geode']
+    max_geodes_potential = max_geodes_with_current_robots + remaining_time * (remaining_time-1)//2
+
+    if max_geodes_potential < max_potentials[bid]:
+        # we cant ever get more than what we got already
+        return
+    max_potentials[bid] = max_geodes_with_current_robots
+    # skip from current turn to when we can build that robot
+    for robot_name, robot_cost in blueprint.items():
+        # figure out how many turns we gotta wait to build it
+        duration_to_build = get_turns(robot_cost, robots)
+        if duration_to_build == -1:
+            # cant build it with the current resource extraction we have
+            continue
         
-            new_resources = resources.copy()
-            for res, amount in robot_cost.items():
-                new_resources[res] -= amount
 
-            new_robots = robots.copy()
-            if robot_name in new_robots:
-                new_robots[robot_name] += 1
+
+
+        # can build the robot, let's build it!
+        #print(f'Building a {robot_name} which will take {duration_to_build}')
+        new_resources = {}
+        for res, amount in resources.items():
+            if res in robots:
+                new_resources[res] = amount + robots[res]*duration_to_build
             else:
-                new_robots[robot_name] = 1
+                new_resources[res] = amount
 
-            for robot, amount in robots.items():
-                new_resources[robot] += amount
+        new_robots = robots.copy()
+        if robot_name in robots:
+            new_robots[robot_name] += 1
+        else:
+            new_robots[robot_name] = 1
 
-            traverse(bid, new_blueprint, new_robots, new_resources, time+1)
+        for res, val in robot_cost.items():
+            new_resources[res] -= val
 
-    # if we can can't build a geode or a obsidian robot, its ok to wait
-    if not can_afford_robot(blueprint['obsidian'], resources) or\
-        not can_afford_robot(blueprint['geode'], resources):
-        for robot, amount in robots.items():
-            resources[robot] += amount
+        traverse(bid, blueprint, new_robots, new_resources, time+duration_to_build)
 
-        traverse(bid, new_blueprint, robots, resources, time+1)
 
 for bid, blueprint in enumerate(blueprints):
     resources = {
@@ -100,5 +130,6 @@ for bid, blueprint in enumerate(blueprints):
 
 print(max_resources_needed(blueprints[0]))
 print(blueprints_max)
+print(visited_nodes)
 #print(max_resources_needed(blueprints[0]))
 #print(blueprints)
