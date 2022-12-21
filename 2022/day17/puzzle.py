@@ -33,15 +33,23 @@ def print_dummy_board(b, rock, current_row):
     print_board(dummy_board)
     print()
 
+def get_board_top():
+    for i in range(len(board)-1, 0, -1):
+        if '#' in board[i]:
+            return board[i]
 
+cache = []
 
 placed_rocks = 0
 current_top = 1 # 0th element is the floor :)
 jetid = 0
-ROCK_LIMIT = 2022
+ROCK_LIMIT = 10000
 while placed_rocks < ROCK_LIMIT:
     for rock in tetrominos:
         #print(f'Currently working on {rock}')
+
+        if (rock, get_board_top()) in cache:
+            print(f'We have a cache hit!!!!! Turn: {placed_rocks}')
 
         if placed_rocks >= ROCK_LIMIT:
             break
@@ -119,7 +127,9 @@ while placed_rocks < ROCK_LIMIT:
         # after a tetromino stopped, increase all the relevant row values
         #print(f'current row is {current_row}')
         current_top = max(current_top, current_row + len(rock))
-        
+
+        cache.append((rock, get_board_top()))
+
         #print_dummy_board(board, rock, current_row)
 
 
@@ -127,7 +137,7 @@ while placed_rocks < ROCK_LIMIT:
 # 3179 is too low
 # 3204 is too low
 # 3206
-print_board(board)
+#print_board(board)
 for i in range(len(board)-1, 0, -1):
     if '#' in board[i]:
         print(i)
