@@ -1,4 +1,4 @@
-jets = open("input").readlines()[0] #l.rstrip() for l in open("input").readlines()
+jets = open("input").readlines()[0]
 
 tetrominos = [
     ['####'], # line
@@ -19,7 +19,7 @@ def collides(rock, board):
                 return True
     return False
 
-def print_board(b):
+def print_board(b=board):
     for line in list(reversed(b)):
         print(line)
 
@@ -38,18 +38,42 @@ def get_board_top(x):
         if '#' in board[i]:
             return board[i-x:i]
 
-cache = []
+def get_stack_height():
+    for i in range(len(board)-1, 0, -1):
+        if '#' in board[i]:
+            return i
+
+def find_overlap():
+    # we have the board, let's try finding what overlaps
+    SHIFT_SIZE = 9
+    repeat_start = 0
+    repeat_size = 0
+    for i in range(1, len(board) - SHIFT_SIZE): # look in it for increments of whatever
+        for j in range(i):
+            if board[i:i+SHIFT_SIZE] == board[j:j+SHIFT_SIZE]:
+                repeat_start = j
+                repeat_size = i-j
+                return (True, repeat_start, repeat_size)
+    return (False, 0, 0)
 
 placed_rocks = 0
 current_top = 1 # 0th element is the floor :)
 jetid = 0
-ROCK_LIMIT = 100000
+ROCK_LIMIT = 2022
+
+found = False
+repeat_start = 0
+repeat_size = 0
+repeat_rocks_placed = 0
+repeat_pattern = {}
+
+rocks_placed_at_repeat_start = 0
+
 while placed_rocks < ROCK_LIMIT:
     for rock in tetrominos:
         #print(f'Currently working on {rock}')
 
-        if (rock, get_board_top(8), jetid) in cache:
-           print(f'We have a cache hit!!!!! Turn: {placed_rocks}')
+
 
         if placed_rocks >= ROCK_LIMIT:
             break
@@ -123,24 +147,45 @@ while placed_rocks < ROCK_LIMIT:
             # dummy board after ever movement
             #print_dummy_board(board, rock, current_row)
             jetid = (jetid + 1) % len(jets)
-        
+
+        if not found:
+            # repeat start - on what height do we start to repeat
+            # repeat size - what's the height of our repeat
+            found, repeat_start, repeat_size = find_overlap()
+            if found:
+                rocks_placed_at_repeat_start = placed_rocks
+
+        if found:
+            if repeat_rocks_placed == repeat_size:
+                print('WE ARE DONE HERE.')
+                print(repeat_pattern)
+                exit()
+            else:
+                #print(get_stack_height(), repeat_start, repeat_size)
+                #print_board()
+                #exit() # remove this after
+                repeat_pattern[repeat_rocks_placed] = get_stack_height() - repeat_start - repeat_size - 10 # the 10 is so we make up for our shifting check, since we look from the bottom
+                repeat_rocks_placed += 1
+
         # after a tetromino stopped, increase all the relevant row values
         #print(f'current row is {current_row}')
         current_top = max(current_top, current_row + len(rock))
 
-        cache.append((rock, get_board_top(8), jetid))
 
         #print_dummy_board(board, rock, current_row)
 
-
-# 3178 is too low
-# 3179 is too low
-# 3204 is too low
-# 3206
 #print_board(board)
-for i in range(len(board)-1, 0, -1):
-    if '#' in board[i]:
-        print(i)
-        break
+print(get_stack_height())
 
-#print(placed_rocks, current_top)
+print(repeat_size, repeat_start)
+
+print((ROCK_LIMIT - repeat_start) / repeat_size)
+print((ROCK_LIMIT - repeat_start) % repeat_size)
+
+# 5121
+# 5068 | 53
+# 5015 | 53
+# 4962 | 53
+# 4909 | 53
+# 4856 | 53
+# 4803 | 53
