@@ -42,15 +42,19 @@ def get_stack_height():
     for i in range(len(board)-1, 0, -1):
         if '#' in board[i]:
             return i
+    return 0
 
 def find_overlap():
     # we have the board, let's try finding what overlaps
-    SHIFT_SIZE = 9
+    SHIFT_SIZE = 100
     repeat_start = 0
     repeat_size = 0
-    for i in range(1, len(board) - SHIFT_SIZE): # look in it for increments of whatever
+    for i in range(len(board) - SHIFT_SIZE): # look in it for increments of whatever
         for j in range(i):
             if board[i:i+SHIFT_SIZE] == board[j:j+SHIFT_SIZE]:
+                #print(board[i], board[i+SHIFT_SIZE])
+                #print(board[j], board[j+SHIFT_SIZE])
+                #print(i, j)
                 repeat_start = j
                 repeat_size = i-j
                 return (True, repeat_start, repeat_size)
@@ -59,7 +63,7 @@ def find_overlap():
 placed_rocks = 0
 current_top = 1 # 0th element is the floor :)
 jetid = 0
-ROCK_LIMIT = 2022
+ROCK_LIMIT = 2022#2022
 
 found = False
 repeat_start = 0
@@ -73,13 +77,13 @@ while placed_rocks < ROCK_LIMIT:
     for rock in tetrominos:
         #print(f'Currently working on {rock}')
 
-
-
         if placed_rocks >= ROCK_LIMIT:
             break
 
         stopped = False
         current_row = current_top+3
+
+        repeat_pattern[placed_rocks] = get_stack_height()
 
         # let's see if we need to add anything to the board!
         if current_row+len(rock) >= len(board):
@@ -122,7 +126,6 @@ while placed_rocks < ROCK_LIMIT:
                 if collides(rock_row, board_row):
                     can_move_down = False
                         
-
             if not can_move_down: # add it to board here
                 for i in range(len(rock)): 
                     local_row = current_row + i
@@ -153,21 +156,29 @@ while placed_rocks < ROCK_LIMIT:
             # repeat size - what's the height of our repeat
             found, repeat_start, repeat_size = find_overlap()
             if found:
-                rocks_placed_at_repeat_start = placed_rocks
+                #print(repeat_start, repeat_size)
+                rocks_placed_at_repeat_start = 0
+                rocks_per_repeat = 1
+                for k,v in repeat_pattern.items():
+                    if v == repeat_start:
+                        rocks_placed_at_repeat_start = k
+                    if v == repeat_size+repeat_start:
+                        rocks_per_repeat = k - rocks_placed_at_repeat_start
+                #print(rocks_per_repeat, rocks_placed_at_repeat_start)
+                
+                a = ROCK_LIMIT - rocks_placed_at_repeat_start
+                height = repeat_start # the height where it starts to repeat
+                height += repeat_size * (a // rocks_per_repeat)
+                b = a % rocks_per_repeat
+                height += repeat_pattern[rocks_placed_at_repeat_start + b] - repeat_start
+                
+                #print(repeat_pattern)
+                
+                #print(a, b, height, repeat_start)
+                print(f'HEIGHTS: {height}')
 
-        if found:
-            if repeat_rocks_placed == repeat_size:
-                print('WE ARE DONE HERE.')
-                print(repeat_pattern)
                 exit()
-            else:
-                #print(get_stack_height(), repeat_start, repeat_size)
-                #print_board()
-                #exit() # remove this after
-                repeat_pattern[repeat_rocks_placed] = get_stack_height() - repeat_start - repeat_size - 10 # the 10 is so we make up for our shifting check, since we look from the bottom
-                repeat_rocks_placed += 1
 
-        # after a tetromino stopped, increase all the relevant row values
         #print(f'current row is {current_row}')
         current_top = max(current_top, current_row + len(rock))
 
@@ -175,12 +186,14 @@ while placed_rocks < ROCK_LIMIT:
         #print_dummy_board(board, rock, current_row)
 
 #print_board(board)
-print(get_stack_height())
+#print(get_stack_height())
 
-print(repeat_size, repeat_start)
+#print(repeat_size, repeat_start)
 
-print((ROCK_LIMIT - repeat_start) / repeat_size)
-print((ROCK_LIMIT - repeat_start) % repeat_size)
+#print((ROCK_LIMIT - repeat_start) / repeat_size)
+#print((ROCK_LIMIT - repeat_start) % repeat_size)
+
+# 1659090909014 is too high
 
 # 5121
 # 5068 | 53
