@@ -13,15 +13,6 @@ for line in blueprints_input:
 
     blueprints.append(tmp_blueprint)
 
-def can_afford_robot(robot, resources):
-    #print(f'Testing robot: {robot} and I have {resources}: ', end='')
-    for k,v in resources.items():
-        if k in robot and robot[k] > v:
-            #print(f'Cannot afford robot!!!')
-            return False
-    #print(f'If it got here, robot is affordable')
-    return True
-
 def max_resources_needed(blueprint):
     resources = {
         'ore': 0,
@@ -38,44 +29,52 @@ def max_resources_needed(blueprint):
 
     return resources
 
-def time_to_build(robot_cost, robots):
+max_res_blueprints = []
+for blueprint in blueprints:
+    max_res_blueprints.append(max_resources_needed(blueprint))
+
+def time_to_build(robot_cost, robots, available_res):
 #    print(f'Testing {robot_cost}, {robots}')
+
     max_turns = 0
     for res, val in robot_cost.items():
         if res not in robots:
-            # cannot build this robot ever
             return -1
-        
-        max_turns = max(max_turns, math.floor(val/robots[res]))
-    #print(max_turns)
-    return max_turns
 
-blueprints_max = [0 for _ in range(len(blueprints))]
+        resources_i_have = available_res[res]
+        resource_robots_i_have = robots[res]
+
+        if resources_i_have > val:
+            continue
+        else:
+            max_turns = max(max_turns, math.ceil((val-resources_i_have)/resource_robots_i_have))
+    return max_turns+1
+
+blueprints_max_geodes = [0 for _ in range(len(blueprints))]
 max_potentials = [0 for _ in range(len(blueprints))]
-max_time = 24
+caching = [{} for _ in range(len(blueprints))]
+max_time = 32
 visited_nodes = 0
-caching = {}
 def traverse(bid, blueprint, robots, resources, time):
-    #print(f'Currently on turn {time}/{max_time}')
+    #print(f'{time*"  "}Currently on turn {time}/{max_time}')
+    #print(f'{time*"  "} {robots} {resources} {blueprint}')
+
     global visited_nodes
     visited_nodes += 1
     if time >= max_time:
-        #print(bid, resources, robots)
-        blueprints_max[bid] = max(blueprints_max[bid], resources['geode'])
-        #print(f'We managed to get {resources["geode"]} geodes.')    
-        #print(f'Using these robots: {robots}')
+        blueprints_max_geodes[bid] = max(blueprints_max_geodes[bid], resources['geode'])
         return
 
     # if we already somehow saw this robot combination before but at an earlier time (somehow)
     # then no point pursuing this
     robots_tuple = tuple(list(robots.values())) #[:-1]) # :-1 is too aggressive 
-    if robots_tuple in caching and caching[robots_tuple] < time:
+    if robots_tuple in caching[bid] and caching[bid][robots_tuple] < time:
             return
-    caching[robots_tuple] = time
+    caching[bid][robots_tuple] = time
 
     # remove a robot blueprint if we have no need for it anymore
     new_blueprint = blueprint.copy()
-    max_resources = max_resources_needed(blueprint)
+    max_resources = max_res_blueprints[bid] # max_resources_needed(blueprint)
     for robot_name, amount in robots.items():
         if robot_name in max_resources and robot_name in blueprint:
             if amount >= max_resources[robot_name]:
@@ -83,21 +82,24 @@ def traverse(bid, blueprint, robots, resources, time):
     blueprint = new_blueprint
 
     remaining_time = max_time - time
-
     max_geodes_with_current_robots = 0
     if 'geode' in robots:
-        max_geodes_with_current_robots = robots['geode'] + remaining_time * robots['geode']
+        max_geodes_with_current_robots = resources['geode'] + remaining_time * robots['geode']
     max_geodes_potential = max_geodes_with_current_robots + remaining_time * (remaining_time-1)//2
 
     if max_geodes_potential < max_potentials[bid]:
         # we have a max potential somewhere else, should likely try that branch
         return
-    max_potentials[bid] = max_geodes_with_current_robots
+    max_potentials[bid] = max(max_potentials[bid], max_geodes_with_current_robots)
+
+    managed_to_build_robot = False
+
     # skip from current turn to when we can build that robot
     blueprint_reversed = dict(reversed(list(blueprint.items())))
     for robot_name, robot_cost in blueprint_reversed.items():
         # figure out how many turns we gotta wait to build it
-        duration_to_build = time_to_build(robot_cost, robots)
+        duration_to_build = time_to_build(robot_cost, robots, resources)
+        #print(f'Duration to build {robot_name}: {duration_to_build}')
         if duration_to_build == -1 or duration_to_build + time > max_time:
             # cant build it with the current resource extraction we have
             continue
@@ -120,9 +122,19 @@ def traverse(bid, blueprint, robots, resources, time):
         for res, val in robot_cost.items():
             new_resources[res] -= val
 
+        managed_to_build_robot = True
         traverse(bid, blueprint, new_robots, new_resources, time+duration_to_build)
 
+    if not managed_to_build_robot:
+        new_resources = {}
+        for res, amount in resources.items():
+            if res in robots:
+                new_resources[res] = amount + robots[res]*(max_time-time)
+            else:
+                new_resources[res] = amount
+        traverse(bid, blueprint, robots, new_resources, max_time)
 
+# part 1:
 for bid, blueprint in enumerate(blueprints):
     resources = {
         'ore': 0,
@@ -133,9 +145,20 @@ for bid, blueprint in enumerate(blueprints):
     #print(bid, blueprint)
     traverse(bid, blueprint, {'ore': 1}, resources, 0)
 
-    #can_afford_robot(blueprint['ore'], resources)
+t = 0
+for i, b in enumerate(blueprints_max_geodes):
+    t += (i+1)*b
 
-print(blueprints_max)
+print(t)
+
+# part 2:
+t = 1
+for b in blueprints_max_geodes[:3]:
+    t *= b
+
+print(t)
+
+
+# stats for nerds
+print(blueprints_max_geodes)
 print(visited_nodes)
-#print(max_resources_needed(blueprints[0]))
-#print(blueprints)
