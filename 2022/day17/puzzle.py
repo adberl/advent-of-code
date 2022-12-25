@@ -46,7 +46,7 @@ def get_stack_height():
 
 def find_overlap():
     # we have the board, let's try finding what overlaps
-    SHIFT_SIZE = 100
+    SHIFT_SIZE = 20
     repeat_start = 0
     repeat_size = 0
     for i in range(len(board) - SHIFT_SIZE): # look in it for increments of whatever
@@ -54,7 +54,6 @@ def find_overlap():
             if board[i:i+SHIFT_SIZE] == board[j:j+SHIFT_SIZE]:
                 #print(board[i], board[i+SHIFT_SIZE])
                 #print(board[j], board[j+SHIFT_SIZE])
-                #print(i, j)
                 repeat_start = j
                 repeat_size = i-j
                 return (True, repeat_start, repeat_size)
@@ -63,7 +62,7 @@ def find_overlap():
 placed_rocks = 0
 current_top = 1 # 0th element is the floor :)
 jetid = 0
-ROCK_LIMIT = 2022#2022
+ROCK_LIMIT = 1000000000000#2022
 
 found = False
 repeat_start = 0
@@ -151,7 +150,7 @@ while placed_rocks < ROCK_LIMIT:
             #print_dummy_board(board, rock, current_row)
             jetid = (jetid + 1) % len(jets)
 
-        if not found:
+        if not found and placed_rocks % 4000 == 0: # 4000 is a heuristic, for the real input around ~3500 we start repeating
             # repeat start - on what height do we start to repeat
             # repeat size - what's the height of our repeat
             found, repeat_start, repeat_size = find_overlap()
@@ -160,22 +159,26 @@ while placed_rocks < ROCK_LIMIT:
                 rocks_placed_at_repeat_start = 0
                 rocks_per_repeat = 1
                 for k,v in repeat_pattern.items():
-                    if v == repeat_start:
+                    if v == repeat_start-1:
                         rocks_placed_at_repeat_start = k
-                    if v == repeat_size+repeat_start:
+                    if v == repeat_size+repeat_start-2: # one for repeat, one for start = 2 
                         rocks_per_repeat = k - rocks_placed_at_repeat_start
-                #print(rocks_per_repeat, rocks_placed_at_repeat_start)
                 
+                # debug :)
+                # print(f'We found something...')
+                # print(f'rocks per repeat: {rocks_per_repeat}, starts repeating from:{rocks_placed_at_repeat_start}')
+                # print(f'Repeat height: {repeat_size}, start repeat height: {repeat_start}')
+                # print(f'Len of pattern: {repeat_pattern}')
+                # print()
+                # print()
+                # print(f'Pattern: {repeat_pattern}')
                 a = ROCK_LIMIT - rocks_placed_at_repeat_start
                 height = repeat_start # the height where it starts to repeat
                 height += repeat_size * (a // rocks_per_repeat)
                 b = a % rocks_per_repeat
                 height += repeat_pattern[rocks_placed_at_repeat_start + b] - repeat_start
                 
-                #print(repeat_pattern)
-                
-                #print(a, b, height, repeat_start)
-                print(f'HEIGHTS: {height}')
+                print(f'HEIGHT: {height}')
 
                 exit()
 
@@ -192,8 +195,12 @@ while placed_rocks < ROCK_LIMIT:
 
 #print((ROCK_LIMIT - repeat_start) / repeat_size)
 #print((ROCK_LIMIT - repeat_start) % repeat_size)
-
+# 1602881838594
 # 1659090909014 is too high
+# 2780999998760347
+# the big one repeats on 2781
+# starts repeating from 3678
+
 
 # 5121
 # 5068 | 53
@@ -202,3 +209,10 @@ while placed_rocks < ROCK_LIMIT:
 # 4909 | 53
 # 4856 | 53
 # 4803 | 53
+
+
+# $ python puzzle.py 
+# We found something...
+# rocks per repeat: 1, starts repeating from:0
+# Repeat height: 2781, start repeat height: 674
+# HEIGHTS: 2781000000000000
