@@ -2,6 +2,8 @@
 
 This is the year I get to 25 days :)
 
+EDIT: I did it! What a wonderful year! I was really afraid of SNAFU part 2 for a second there :D
+
 # Days
 
 [Day 01 Puzzle](https://adventofcode.com/2022/day/1) | [Solved](day01/puzzle.py)\
