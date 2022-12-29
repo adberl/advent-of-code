@@ -28,4 +28,4 @@ This is the year I get to 25 days :)
 [Day 22 Puzzle](https://adventofcode.com/2022/day/22) | [Solved](day22/puzzle.py)\
 [Day 23 Puzzle](https://adventofcode.com/2022/day/23) | [Solved](day23/puzzle.py)\
 [Day 24 Puzzle](https://adventofcode.com/2022/day/24) | [Solved](day24/puzzle.py)\
-<!-- [Day 25 Puzzle](https://adventofcode.com/2022/day/25) | [Solved](day25/puzzle.py)\ -->
+[Day 25 Puzzle](https://adventofcode.com/2022/day/25) | [Solved](day25/puzzle.py)
