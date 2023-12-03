@@ -8,4 +8,5 @@ Answers to the Advent of Code event, for various years.
 [2019](2019/)\
 [2020](2020/)\
 [2021](2021/)\
-[2022](2022/)
+[2022](2022/)\
+[2023](2023/)
