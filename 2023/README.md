@@ -14,7 +14,7 @@ Time to make it all the way to the end again
 [Day 8 Puzzle](https://adventofcode.com/2023/day/8) | [Solved](day8/puzzle.py)\
 [Day 9 Puzzle](https://adventofcode.com/2023/day/9) | [Solved](day9/puzzle.py)\
 [Day 10 Puzzle](https://adventofcode.com/2023/day/10) | [Solved](day10/puzzle.py)\
-<!-- [Day 11 Puzzle](https://adventofcode.com/2023/day/11) | [Solved](day11/puzzle.py)\ -->
+[Day 11 Puzzle](https://adventofcode.com/2023/day/11) | [Solved](day11/puzzle.py)\
 <!-- [Day 12 Puzzle](https://adventofcode.com/2023/day/12) | [Solved](day12/puzzle.py)\ -->
 <!-- [Day 13 Puzzle](https://adventofcode.com/2023/day/13) | [Solved](day13/puzzle.py)\ -->
 <!-- [Day 14 Puzzle](https://adventofcode.com/2023/day/14) | [Solved](day14/puzzle.py)\ -->
