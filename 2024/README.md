@@ -1,4 +1,4 @@
-# [Advent of Code 2024](https://adventofcode.com/2024/about)
+﻿# [Advent of Code 2024](https://adventofcode.com/2024/about)
 
 The year to lock in
 
@@ -18,7 +18,7 @@ The year to lock in
 [Day 12 Puzzle](https://adventofcode.com/2023/day/12) | [Solved](day12/puzzle.py)\
 [Day 13 Puzzle](https://adventofcode.com/2023/day/13) | [Solved](day13/puzzle.py)\
 [Day 14 Puzzle](https://adventofcode.com/2023/day/14) | [Solved](day14/puzzle.py)\
-<!-- [Day 15 Puzzle](https://adventofcode.com/2023/day/15) | [Solved](day15/puzzle.py)\ -->
+[Day 15 Puzzle](https://adventofcode.com/2023/day/15) | [Solved](day15/puzzle.py)\
 <!-- [Day 16 Puzzle](https://adventofcode.com/2023/day/16) | [Solved](day16/puzzle.py)\ -->
 <!-- [Day 17 Puzzle](https://adventofcode.com/2023/day/17) | [Solved](day17/puzzle.py)\ -->
 <!-- [Day 18 Puzzle](https://adventofcode.com/2023/day/18) | [Solved](day18/puzzle.py)\ -->
